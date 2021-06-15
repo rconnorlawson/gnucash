@@ -229,63 +229,6 @@ impl_get_display_name (const QofInstance* inst)
     return s;
 }
 
-/** Does this object refer to a specific object */
-static gboolean
-impl_refers_to_object (const QofInstance* inst, const QofInstance* ref)
-{
-    GncInvoice* inv;
-
-    g_return_val_if_fail (inst != NULL, FALSE);
-    g_return_val_if_fail (GNC_IS_INVOICE(inst), FALSE);
-
-    inv = GNC_INVOICE(inst);
-
-    if (GNC_IS_BILLTERM(ref))
-    {
-        return (inv->terms == GNC_BILLTERM(ref));
-    }
-    else if (GNC_IS_JOB(ref))
-    {
-        return (inv->job == GNC_JOB(ref));
-    }
-    else if (GNC_IS_COMMODITY(ref))
-    {
-        return (inv->currency == GNC_COMMODITY(ref));
-    }
-    else if (GNC_IS_ACCOUNT(ref))
-    {
-        return (inv->posted_acc == GNC_ACCOUNT(ref));
-    }
-    else if (GNC_IS_TRANSACTION(ref))
-    {
-        return (inv->posted_txn == GNC_TRANSACTION(ref));
-    }
-    else if (GNC_IS_LOT(ref))
-    {
-        return (inv->posted_lot == GNC_LOT(ref));
-    }
-
-    return FALSE;
-}
-
-/** Returns a list of my type of object which refers to an object.  For example, when called as
-        qof_instance_get_typed_referring_object_list(taxtable, account);
-    it will return the list of taxtables which refer to a specific account.  The result should be the
-    same regardless of which taxtable object is used.  The list must be freed by the caller but the
-    objects on the list must not.
- */
-static GList*
-impl_get_typed_referring_object_list (const QofInstance* inst, const QofInstance* ref)
-{
-    if (!GNC_IS_BILLTERM(ref) && !GNC_IS_JOB(ref) && !GNC_IS_COMMODITY(ref) && !GNC_IS_ACCOUNT(ref)
-            && !GNC_IS_TRANSACTION(ref) && !GNC_IS_LOT(ref))
-    {
-        return NULL;
-    }
-
-    return qof_instance_get_referring_object_list_from_collection (qof_instance_get_collection (inst), ref);
-}
-
 static void
 gnc_invoice_class_init (GncInvoiceClass *klass)
 {
@@ -298,8 +241,6 @@ gnc_invoice_class_init (GncInvoiceClass *klass)
     gobject_class->get_property = gnc_invoice_get_property;
 
     qof_class->get_display_name = impl_get_display_name;
-    qof_class->refers_to_object = impl_refers_to_object;
-    qof_class->get_typed_referring_object_list = impl_get_typed_referring_object_list;
 
     g_object_class_install_property
     (gobject_class,

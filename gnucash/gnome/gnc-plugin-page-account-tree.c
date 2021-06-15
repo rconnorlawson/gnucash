@@ -1641,6 +1641,7 @@ gnc_plugin_page_account_tree_cmd_delete_account (GtkAction *action, GncPluginPag
     memset (&adopt, 0, sizeof (adopt));
     /* If the account has objects referring to it, show the list - the account can't be deleted until these
        references are dealt with. */
+    /*
     list = qof_instance_get_referring_object_list(QOF_INSTANCE(account));
     if (list != NULL)
     {
@@ -1650,6 +1651,7 @@ gnc_plugin_page_account_tree_cmd_delete_account (GtkAction *action, GncPluginPag
         g_list_free(list);
         return;
     }
+    */
 
     window = gnc_plugin_page_get_window(GNC_PLUGIN_PAGE(page));
     acct_name = gnc_account_get_full_name(account);

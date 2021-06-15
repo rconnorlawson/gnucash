@@ -193,19 +193,6 @@ gnc_order_set_property (GObject         *object,
     }
 }
 
-/** Returns a list of my type of object which refers to an object.  For example, when called as
-        qof_instance_get_typed_referring_object_list(taxtable, account);
-    it will return the list of taxtables which refer to a specific account.  The result should be the
-    same regardless of which taxtable object is used.  The list must be freed by the caller but the
-    objects on the list must not.
- */
-static GList*
-impl_get_typed_referring_object_list(const QofInstance* inst, const QofInstance* ref)
-{
-    /* Refers to nothing */
-    return NULL;
-}
-
 static void
 gnc_order_class_init (GncOrderClass *klass)
 {
@@ -218,8 +205,6 @@ gnc_order_class_init (GncOrderClass *klass)
     gobject_class->get_property = gnc_order_get_property;
 
     qof_class->get_display_name = NULL;
-    qof_class->refers_to_object = NULL;
-    qof_class->get_typed_referring_object_list = impl_get_typed_referring_object_list;
 
     g_object_class_install_property
     (gobject_class,

@@ -78,12 +78,6 @@ struct _QofInstanceClass
 
     /* Returns a displayable string to represent this object */
     gchar* (*get_display_name)(const QofInstance*);
-
-    /* Does this object refer to a specific object */
-    gboolean (*refers_to_object)(const QofInstance* inst, const QofInstance* ref);
-
-    /* Returns a list of my type of object which refers to an object */
-    GList* (*get_typed_referring_object_list)(const QofInstance* inst, const QofInstance* ref);
 };
 
 /** Return the GType of a QofInstance */
@@ -183,28 +177,6 @@ guint32 qof_instance_get_idata (gconstpointer inst);
  * Returns a displayable name for this object.  The returned string must be freed by the caller.
  */
 gchar* qof_instance_get_display_name(const QofInstance* inst);
-
-/**
- * Returns a list of objects which refer to a specific object.  The list must be freed by the caller,
- * but the objects on the list must not.
- */
-GList* qof_instance_get_referring_object_list(const QofInstance* inst);
-
-/** Does this object refer to a specific object */
-gboolean qof_instance_refers_to_object(const QofInstance* inst, const QofInstance* ref);
-
-/** Returns a list of my type of object which refers to an object.  For example, when called as
-        qof_instance_get_typed_referring_object_list(taxtable, account);
-    it will return the list of taxtables which refer to a specific account.  The result should be the
-    same regardless of which taxtable object is used.  The list must be freed by the caller but the
-    objects on the list must not.
- */
-GList* qof_instance_get_typed_referring_object_list(const QofInstance* inst, const QofInstance* ref);
-
-/** Returns a list of objects from the collection which refer to the specific object.  The list must be
-    freed by the caller but the objects on the list must not.
- */
-GList* qof_instance_get_referring_object_list_from_collection(const QofCollection* coll, const QofInstance* ref);
 
 /* @} */
 /* @} */
